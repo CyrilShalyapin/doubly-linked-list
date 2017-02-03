@@ -52,8 +52,10 @@ class LinkedList {
     }
 
     insertAt(index, data) {
-        if (this.length === 0 || this.length < index) {
+        if (this.length === 0 || this.length <= index) {
             return this.append(data);
+        } else if (index < 0) {
+            throw new Error('improper index!')
         }
 
         let node = new Node(data),
@@ -63,13 +65,19 @@ class LinkedList {
 
         while (counter < index) {
             currentNode = currentNode.next;
-            counter++;
-         
+            counter++; 
         }
 
-        box = currentNode.prev;
-        box.next = node;
-    
+        if (index === 0) {
+            node.next = currentNode;
+            this._head = node; 
+        } else if (index > 0 || this.length > index) {
+            node.prev = currentNode.prev;
+            node.next = currentNode;
+            box = currentNode.prev;
+            box.next = node;
+        }
+        
         this.length++;
 
         return this;
