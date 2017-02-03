@@ -95,7 +95,9 @@ class LinkedList {
             return this.clear();
         } else if (this.length === 0) {
             return this;
-        }
+        } else if (this.length <= index || index < 0) {
+            throw new Error('nonexistent index!')
+        }  
 
         let currentNode = this._head,
             box = null,
@@ -106,11 +108,19 @@ class LinkedList {
             counter++;
         }
 
-        box = currentNode.prev;
-        box.next = currentNode.next;
-        box = currentNode.next;
-        box.prev = currentNode.prev;
-        currentNode = null;
+        if (index === this.length-1) {
+            this._tail = currentNode.prev;
+            currentNode = null;
+        } else if (index > 0 && index < this.length-1) {
+            box = currentNode.prev;
+            box.next = currentNode.next;
+            box = currentNode.next;
+            box.prev = currentNode.prev;
+            currentNode = null;
+        } else if (index === 0) {
+            this._head = currentNode.next;
+            this._head.prev = null;
+        }
 
         this.length--;
 
