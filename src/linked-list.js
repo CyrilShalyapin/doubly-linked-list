@@ -36,6 +36,9 @@ class LinkedList {
     }
 
     at(index) { 
+        if (this.length <= index || index < 0) {
+            throw new Error('nonexistent index!');
+        }
         let currentNode = this._head,
         counter = 0;
 
@@ -49,7 +52,7 @@ class LinkedList {
     }
 
     insertAt(index, data) {
-        if (this.length === 0) {    // LinkedList chaining requerment
+        if (this.length === 0 || this.length < index) {
             return this.append(data);
         }
 
@@ -88,8 +91,10 @@ class LinkedList {
     }
 
     deleteAt(index) {
-        if (this.length === 1) {    // LinkedList chaining requerment
+        if (this.length === 1) {
             return this.clear();
+        } else if (this.length === 0) {
+            return this;
         }
 
         let currentNode = this._head,
@@ -114,7 +119,7 @@ class LinkedList {
     }
 
     reverse() {
-        if (this.length === 1) {    // LinkedList chaining requerment
+        if (this.length === 1 || this.length === 0) {
             return this;
         }
 
